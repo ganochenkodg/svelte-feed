@@ -1,2 +1,2 @@
-const API_KEY = 'dbc4c8cd154d8ce635599a9bfc4dd5d2';
+const API_KEY = 'PUT YOUR SECRET HERE';
 export { API_KEY};
