@@ -176,7 +176,6 @@
 		postPreviewsBody[post.post._id] = post.post.body;
 		axios.post('/posts/metadata', metaload)
 			.then((res) => {
-				console.log(res.data);
 				result = '<hr style="height:2px;border-width:0;color:silver;background-color:silver">'
 				result = result + `<a target="_blank" href="${res.data.url}">`;
 				result = result + `<strong>${res.data.title}</strong>`
