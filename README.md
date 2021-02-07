@@ -8,8 +8,11 @@ Simple fullstack app for facebook-like feed. For selfhosting and selfposting.
 A simple application for posting notes and links. Created for those cases when you do not want to publish important and personal information in public services.
 
 Used tools:
+
 [Svelte](https://svelte.dev/) - reactive JS framework.
+
 [MongoDB](https://www.mongodb.com) - nosql database.
+
 [linkpreview](linkpreview.net) - API for getting sites previews without CORS issues.
 
 ### requirements
