@@ -6,7 +6,10 @@ var PostSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  isEdited: false
+  isEdited: {
+    type: Boolean,
+    default: false
+  }
 });
 var Post = mongoose.model('Post', PostSchema);
 
@@ -22,35 +25,13 @@ var connectWithRetry = function() {
 exports.mongoMigration = function() {
   connectWithRetry();
   console.log('Mongo connection succesful');
-  mongoose.connection.on('open', function() {
-  mongoose.connection.db.dropDatabase();
-  Post.create({
-    "tag": "Test",
-    "body": "Test post",
-  }, function(err) {
-    if (err) console.error('Failed to create start post', err);
-  });
-  Post.create({
-    "tag": "Test2",
-    "body": "Test post 2",
-  }, function(err) {
-    if (err) console.error('Failed to create start post', err);
-  });
-});
 };
 
 exports.getPosts = async (req, res, next) => {
   await Post.find(function(err, products) {
     if (err) return next(err);
     res.json(products);
-  });
-};
-
-exports.getPostById = async (req, res, next) => {
-  await Post.findById(req.params.id, function(err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
+  }).sort({date: 'descending'});
 };
 
 exports.postPost = async (req, res, next) => {

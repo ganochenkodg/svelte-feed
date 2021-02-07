@@ -15,7 +15,6 @@ app.use(bodyParser.json());
 
 app.use('/posts/', router);
 router.get('/mongo/', mongo.getPosts);
-router.get('/mongo/:id', mongo.getPostById);
 router.post('/mongo/', mongo.postPost);
 router.put('/mongo/:id', mongo.updatePost);
 router.delete('/mongo/:id', mongo.deletePost);
