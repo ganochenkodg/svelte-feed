@@ -1,0 +1,54 @@
+vapiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dima-blog
+  labels:
+    app: dima-blog
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: dima-blog
+  template:
+    metadata:
+      labels:
+        app: dima-blog
+    spec:
+      volumes:
+      - name: mongo-data
+        hostPath:
+          path: /data/linux/mongo-blog
+          type: Directory
+      containers:
+      - name: blog-front
+        image: homelab:5000/dima-blog-front:latest
+        ports:
+        - containerPort: 80
+      - name: blog-backend
+        image: homelab:5000/dima-blog-backend:latest
+        ports:
+        - containerPort: 3000
+      - name: mongo
+        volumeMounts:
+        - mountPath: /data/db
+          name: mongo-data
+        image: mongo
+        ports:
+        - containerPort: 27017
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dima-blog-host-service
+spec:
+  selector:
+    app: dima-blog
+  ports:
+    - port: 8099
+      targetPort: 80
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  externalIPs:
+    - 192.168.0.111

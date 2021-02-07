@@ -13,12 +13,10 @@ Used tools:
 
 [MongoDB](https://www.mongodb.com) - nosql database.
 
-[linkpreview](linkpreview.net) - API for getting sites previews without CORS issues.
 
 ### requirements
 
-1. First of all you need API KEY for getting sites preview. Go [here](https://my.linkpreview.net/auth/new) and register. Put a key to [env.js](frontend/src/env.js).
-2. Install [docker-compose](https://docs.docker.com/compose/install/).
+Install [docker-compose](https://docs.docker.com/compose/install/).
 
 ### usage
 

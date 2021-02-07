@@ -29,7 +29,6 @@
 	}
 	var postPreviews = [];
 	var postPreviewsBody = [];
-	import {API_KEY} from './env.js';
 
 	function formatDate(fullDate) {
 		let newDate = fullDate.split('T');
@@ -52,6 +51,10 @@
 		replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
 
 		return replacedText;
+	}
+
+	function findFirstUrl(post) {
+    return post.substring(post.indexOf('href=')+6,post.indexOf('target=')-2);
 	}
 
 	function getTags() {
@@ -161,18 +164,19 @@
 	}
 
 	function getPreview(post) {
-		const payload = {
-			key: API_KEY,
-			q: post.post.body,
-		};
-		var result;
 		if (postPreviews[post.post._id] !== undefined) {
 			if (postPreviewsBody[post.post._id] == post.post.body) return;
-		}
+		};
+		var result;
+		var firstUrl = findFirstUrl(linkify(post));
+		const metaload = {
+			url: firstUrl
+		};
 		postPreviews[post.post._id] = '';
 		postPreviewsBody[post.post._id] = post.post.body;
-		axios.post('https://api.linkpreview.net', payload)
+		axios.post('/posts/metadata', metaload)
 			.then((res) => {
+				console.log(res.data);
 				result = '<hr style="height:2px;border-width:0;color:silver;background-color:silver">'
 				result = result + `<a target="_blank" href="${res.data.url}">`;
 				result = result + `<strong>${res.data.title}</strong>`
@@ -183,7 +187,6 @@
 				console.log(error);
 			});
 	};
-
 	onMount(getPosts);
 </script>
 

@@ -6,6 +6,8 @@ const cors = require('permissive-cors');
 const process = require('process');
 const GracefulShutdownManager = require('@moebius/http-graceful-shutdown').GracefulShutdownManager;
 
+const getMetaData = require('metadata-scraper')
+
 const mongo = require('./mongo.js');
 console.log('Start migrations');
 mongo.mongoMigration();
@@ -18,6 +20,11 @@ router.get('/mongo/', mongo.getPosts);
 router.post('/mongo/', mongo.postPost);
 router.put('/mongo/:id', mongo.updatePost);
 router.delete('/mongo/:id', mongo.deletePost);
+router.post('/metadata/', function (req, res, next) {
+  getMetaData(req.body.url).then((data) => {
+    res.json(data);
+  })
+});
 
 const server = app.listen(3000, function() {
   console.log('Posts backend running!');

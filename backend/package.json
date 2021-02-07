@@ -12,6 +12,7 @@
     "@moebius/http-graceful-shutdown": "^1.1.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
+    "metadata-scraper": "^0.2.6",
     "mongoose": "^5.11.15",
     "permissive-cors": "^1.0.0"
   }
