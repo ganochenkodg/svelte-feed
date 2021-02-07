@@ -27,4 +27,4 @@ Used tools:
 ```
 docker-compose up -d
 ```
-2. Open [http://localhost:8080](http://localhost:8080)
+2. Open [http://localhost:80](http://localhost:80)

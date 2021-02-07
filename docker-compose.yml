@@ -3,20 +3,12 @@ services:
   backend:
     build: backend/
     hostname: backend
-    ports:
-      - "3000:3000"
+    network_mode: "host"
     depends_on:
-      - mongo
-    links:
       - mongo
   frontend:
     build: frontend/
-    ports:
-      - "8080:80"
-    links:
-      - backend
+    network_mode: "host"
   mongo:
-    hostname: mongo
     image: mongo
-    ports:
-      - "27017:27017"
+    network_mode: "host"
