@@ -17,7 +17,10 @@
 	import {
 		onMount
 	} from "svelte";
+	import Carousel from 'svelte-carousel';
+  import 'svelte-carousel/dist/index.css';
 
+	var files;
 	var posts = [];
 	var fullPosts = [];
 	var isFilter = 'none';
@@ -25,7 +28,8 @@
 	var listOfTags = [];
 	var newPost = {
 		tag: '',
-		body: ''
+		body: '',
+		images: []
 	}
 	var postPreviews = [];
 	var postPreviewsBody = [];
@@ -54,14 +58,14 @@
 	}
 
 	function findFirstUrl(post) {
-    return post.substring(post.indexOf('href=')+6,post.indexOf('target=')-2);
+		return post.substring(post.indexOf('href=') + 6, post.indexOf('target=') - 2);
 	}
 
 	function getTags() {
-    var newListOfTags = [];
+		var newListOfTags = [];
 		fullPosts.forEach(function(entry) {
-      newListOfTags.push(entry.tag);
-    });
+			newListOfTags.push(entry.tag);
+		});
 		listOfTags = [...new Set(newListOfTags)];
 	}
 
@@ -78,6 +82,7 @@
 		isFilter = tag;
 		posts = fullPosts.filter(post => post.tag.includes(tag.tag));
 	}
+
 	function filterByTagPost(tag) {
 		isFilter = tag.post;
 		posts = fullPosts.filter(post => post.tag.includes(tag.post.tag));
@@ -89,18 +94,39 @@
 		getPosts();
 	}
 
+	function uploadFile() {
+		const url = "https://api.cloudinary.com/v1_1/dzmungxxd/image/upload";
+		var formData = new FormData();
+		formData.append("file", files[0]);
+		formData.append("upload_preset", "scqkqulr");
+		axios.post(url, formData)
+			.then((res) => {
+				console.log(res.data);
+				let newimage = {
+					src: res.data.url
+				}
+				newPost.images.push(newimage);
+				newPost.images = newPost.images;
+				files = '';
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
 	function getPosts() {
 		axios.get('/posts/mongo')
 			.then((res) => {
 				fullPosts = res.data;
-				if (isFilter == 'none' ) {
+				if (isFilter == 'none') {
 					posts = fullPosts;
-				} else if (isFilter == 'text' ) {
+				} else if (isFilter == 'text') {
 					filterByText();
 				} else {
 					filterByTag(isFilter);
 				}
 				getTags();
+				console.log(posts);
 			});
 	};
 
@@ -151,7 +177,8 @@
 			});
 		newPost = {
 			tag: '',
-			body: ''
+			body: '',
+			images: []
 		}
 	};
 
@@ -190,6 +217,16 @@
 </script>
 
 <style>
+	.img-carousel {
+		max-width: 100%;
+		max-height: 100%;
+		display: block;
+    margin-left: auto;
+    margin-right: auto;
+	}
+	.div-carousel {
+		height: 50vh;
+	}
 	:global(body) {
 		background-color: #ffffff;
 		overflow-x: hidden;
@@ -213,7 +250,20 @@
 						<Button class="btn-success" size="sm" on:click={addPost}>Добавить</Button>
 					</InputGroupAddon>
 				</InputGroup>
-				<Input type="textarea" bind:value={newPost.body} />
+				<Input type="textarea" bind:value={newPost.body}/>
+				<InputGroup size="sm" style="padding-top: 10px;">
+		  		<Input id="fileUpload" type="file" bind:files style="width: calc(100% - 80px);"/>
+			  	<InputGroupAddon addonType="append">
+			    	<Button class="btn-success" on:click={uploadFile}>Добавить</Button>
+	  	  	</InputGroupAddon>
+	    	</InputGroup>
+				{#if newPost.images[0]}
+				<Carousel>
+				{#each newPost.images as image}
+          <img style="max-width: 100%; max-height: 300px;" src={ image.src} alt='' />
+		    {/each}
+				</Carousel>
+				{/if}
 			</ToastBody>
 		</Toast>
 		<Toast style="max-width: 100%;" light>
@@ -253,6 +303,15 @@
 				<div style="word-wrap: break-word;white-space: pre-wrap;">{@html linkify({ post })}</div>
 				{:else}
         <Input type="textarea" bind:value={ post.body }/>
+				{/if}
+				{#if post.images[0]}
+				<Carousel>
+				{#each post.images as image}
+				<div class="div-carousel">
+					<img class="img-carousel" src={ image.src} alt='' />
+					</div>
+				{/each}
+				</Carousel>
 				{/if}
 				{#if (isContainUrl({post}))}
 				  {@html postPreviews[post._id]}

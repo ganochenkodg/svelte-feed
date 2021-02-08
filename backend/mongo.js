@@ -9,6 +9,10 @@ var PostSchema = mongoose.Schema({
   isEdited: {
     type: Boolean,
     default: false
+  },
+  images: {
+    type: Array,
+    "default": []
   }
 });
 var Post = mongoose.model('Post', PostSchema);
@@ -31,7 +35,9 @@ exports.getPosts = async (req, res, next) => {
   await Post.find(function(err, products) {
     if (err) return next(err);
     res.json(products);
-  }).sort({date: 'descending'});
+  }).sort({
+    date: 'descending'
+  });
 };
 
 exports.postPost = async (req, res, next) => {
