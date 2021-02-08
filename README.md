@@ -13,10 +13,13 @@ Used tools:
 
 [MongoDB](https://www.mongodb.com) - nosql database.
 
+[Cloudinary](https://cloudinary.com) - cloud for storing media files with API.
+
 
 ### requirements
 
-Install [docker-compose](https://docs.docker.com/compose/install/).
+1. Install [docker-compose](https://docs.docker.com/compose/install/).
+2. If you need posting images - set `IMAGE_ENABLE` in [env.js](frontend/src/env.js) to true. Next I recommend you to register at [cloudinary](https://cloudinary.com), make unsigned upload preset and change `CLOUD_NAME` and `UPLOAD_PRESET` in [env.js](frontend/src/env.js) to yours. In free plan cloudinary grants you storage for 25GB of files.
 
 ### usage
 

@@ -17,8 +17,11 @@
 	import {
 		onMount
 	} from "svelte";
-	import Carousel from 'svelte-carousel';
-  import 'svelte-carousel/dist/index.css';
+	import {
+  	CLOUD_NAME,
+  	UPLOAD_PRESET,
+		IMAGE_ENABLE
+  } from './env.js';
 
 	var files;
 	var posts = [];
@@ -95,10 +98,10 @@
 	}
 
 	function uploadFile() {
-		const url = "https://api.cloudinary.com/v1_1/dzmungxxd/image/upload";
+		const url = 'https://api.cloudinary.com/v1_1/'+CLOUD_NAME+'/image/upload';
 		var formData = new FormData();
 		formData.append("file", files[0]);
-		formData.append("upload_preset", "scqkqulr");
+		formData.append("upload_preset", UPLOAD_PRESET);
 		axios.post(url, formData)
 			.then((res) => {
 				console.log(res.data);
@@ -107,7 +110,6 @@
 				}
 				newPost.images.push(newimage);
 				newPost.images = newPost.images;
-				files = '';
 			})
 			.catch((error) => {
 				console.log(error);
@@ -206,7 +208,7 @@
 				result = '<hr style="height:2px;border-width:0;color:silver;background-color:silver">'
 				result = result + `<a target="_blank" href="${res.data.url}">`;
 				result = result + `<strong>${res.data.title}</strong>`
-				result = result + `<img style="border-radius: 4px;max-width: 100%;" title="${res.data.description}" src="${res.data.image}"/></a>`;
+				result = result + `<img style="border: 2px solid silver;border-radius: 4px;max-width: 100%;" title="${res.data.description}" src="${res.data.image}"/></a>`;
 				postPreviews[post.post._id] = result;
 			})
 			.catch((error) => {
@@ -216,17 +218,29 @@
 	onMount(getPosts);
 </script>
 
+<svelte:head>
+	<script src="lightbox-plus-jquery.min.js"></script>
+	<link href="lightbox.css" rel="stylesheet" />
+</svelte:head>
+
 <style>
-	.img-carousel {
-		max-width: 100%;
-		max-height: 100%;
-		display: block;
-    margin-left: auto;
-    margin-right: auto;
+	.gallery {
+		display: flex;
+		flex-flow: row wrap;
 	}
-	.div-carousel {
-		height: 50vh;
+
+	.galleryhref {
+		margin-right: 6px;
+		margin-bottom: 6px;
 	}
+
+	img {
+		width: 100%;
+		max-height: 140px;
+		border-radius: 4px;
+		border: 2px solid silver;
+	}
+
 	:global(body) {
 		background-color: #ffffff;
 		overflow-x: hidden;
@@ -247,22 +261,27 @@
 				<InputGroup size="sm" style="padding-bottom: 10px;">
 					<Input placeholder="tag" type="text" bind:value={newPost.tag} />
 					<InputGroupAddon addonType="append">
-						<Button class="btn-success" size="sm" on:click={addPost}>Добавить</Button>
+						<Button class="btn-success" size="sm" on:click={addPost}>Создать пост</Button>
 					</InputGroupAddon>
 				</InputGroup>
-				<Input type="textarea" bind:value={newPost.body}/>
+				<Input type="textarea" bind:value={newPost.body} />
+				{#if IMAGE_ENABLE}
 				<InputGroup size="sm" style="padding-top: 10px;">
-		  		<Input id="fileUpload" type="file" bind:files style="width: calc(100% - 80px);"/>
-			  	<InputGroupAddon addonType="append">
-			    	<Button class="btn-success" on:click={uploadFile}>Добавить</Button>
-	  	  	</InputGroupAddon>
-	    	</InputGroup>
-				{#if newPost.images[0]}
-				<Carousel>
+					<Input id="fileUpload" type="file" bind:files style="width: calc(100% - 80px);" />
+					<InputGroupAddon addonType="append">
+						<Button class="btn-success" on:click={uploadFile}>Добавить</Button>
+					</InputGroupAddon>
+				</InputGroup>
+				{/if}
+				{#if newPost.images[0] && IMAGE_ENABLE}
+				<hr style="height:2px;border-width:0;color:silver;background-color:silver">
+				<div class="gallery">
 				{#each newPost.images as image}
-          <img style="max-width: 100%; max-height: 300px;" src={ image.src} alt='' />
+				  <a class="galleryhref" href={ image.src } data-lightbox="newPost">
+				  <img src={ image.src } alt='' />
+				  </a>
 		    {/each}
-				</Carousel>
+				</div>
 				{/if}
 			</ToastBody>
 		</Toast>
@@ -304,14 +323,15 @@
 				{:else}
         <Input type="textarea" bind:value={ post.body }/>
 				{/if}
-				{#if post.images[0]}
-				<Carousel>
+				{#if post.images[0] && IMAGE_ENABLE}
+				<hr style="height:2px;border-width:0;color:silver;background-color:silver">
+				<div class="gallery">
 				{#each post.images as image}
-				<div class="div-carousel">
-					<img class="img-carousel" src={ image.src} alt='' />
-					</div>
+				  <a class="galleryhref" href={ image.src } data-lightbox={post._id}>
+					<img src={ image.src } alt='' />
+				  </a>
 				{/each}
-				</Carousel>
+				</div>
 				{/if}
 				{#if (isContainUrl({post}))}
 				  {@html postPreviews[post._id]}
