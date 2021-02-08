@@ -235,7 +235,7 @@
 	}
 
 	img {
-		width: 100%;
+		width: auto;
 		max-height: 140px;
 		border-radius: 4px;
 		border: 2px solid silver;
@@ -267,7 +267,7 @@
 				<Input type="textarea" bind:value={newPost.body} />
 				{#if IMAGE_ENABLE}
 				<InputGroup size="sm" style="padding-top: 10px;">
-					<Input id="fileUpload" type="file" bind:files style="width: calc(100% - 80px);" />
+					<Input id="fileUpload" type="file" bind:files style="width: calc(100% - 100px);" />
 					<InputGroupAddon addonType="append">
 						<Button class="btn-success" on:click={uploadFile}>Добавить</Button>
 					</InputGroupAddon>
