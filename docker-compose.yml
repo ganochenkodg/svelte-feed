@@ -12,3 +12,7 @@ services:
   mongo:
     image: mongo
     network_mode: "host"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
