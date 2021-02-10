@@ -299,7 +299,7 @@
 					</InputGroupAddon>
 				</InputGroup>
 				{#each listOfTags as tag}
-				<Button class="btn-info" size="sm" style="margin-right: 6px;" on:click={filterByTag({ tag })}>{ tag }</Button>
+				<Button class="btn-info" size="sm" style="margin-right: 6px;margin-bottom: 6px;" on:click={filterByTag({ tag })}>{ tag }</Button>
 				{/each}
 			</ToastBody>
 		</Toast>
