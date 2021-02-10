@@ -24,8 +24,16 @@ Used tools:
 ### usage
 
 1. Run docker-compose
-
 ```
 docker-compose up -d
 ```
 2. Open [http://localhost:80](http://localhost:80)
+
+
+### features
+
+- First, you can create posts.
+- All urls in the text are converted into links, a preview is created for the first link.
+- You can add images to the post, the number of images is unlimited. Just select the file and click `Добавить`.
+- You can add multiple tags to a post, just specify words separated by a space. Each word will be added to the tag cloud.
+- Text search is not case sensitive, `such` and `SuCh` in the search field will give the same result.
