@@ -200,7 +200,7 @@
 		var firstUrl = findFirstUrl(linkify(post));
 		const metaload = {
 			url: firstUrl
-		};add
+		};
 		postPreviews[post.post._id] = '';
 		postPreviewsBody[post.post._id] = post.post.body;
 		axios.post('/posts/metadata', metaload)
