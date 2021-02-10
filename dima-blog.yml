@@ -24,10 +24,12 @@ spec:
       containers:
       - name: blog-front
         image: homelab:5000/dima-blog-front:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
       - name: blog-backend
         image: homelab:5000/dima-blog-backend:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
       - name: mongo
@@ -35,6 +37,7 @@ spec:
         - mountPath: /data/db
           name: mongo-data
         image: mongo
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 27017
 ---

@@ -67,7 +67,7 @@
 	function getTags() {
 		var newListOfTags = [];
 		fullPosts.forEach(function(entry) {
-			newListOfTags.push(entry.tag);
+			newListOfTags.push(...entry.tag.split(' '));
 		});
 		listOfTags = [...new Set(newListOfTags)];
 	}
@@ -200,7 +200,7 @@
 		var firstUrl = findFirstUrl(linkify(post));
 		const metaload = {
 			url: firstUrl
-		};
+		};add
 		postPreviews[post.post._id] = '';
 		postPreviewsBody[post.post._id] = post.post.body;
 		axios.post('/posts/metadata', metaload)
@@ -237,6 +237,7 @@
 	img {
 		width: auto;
 		max-height: 140px;
+		max-width: 100%;
 		border-radius: 4px;
 		border: 2px solid silver;
 	}
