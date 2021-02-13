@@ -20,7 +20,8 @@
 	import {
   	CLOUD_NAME,
   	UPLOAD_PRESET,
-		IMAGE_ENABLE
+		IMAGE_ENABLE,
+		HEADER_COLOR
   } from './env.js';
 
 	var files;
@@ -255,7 +256,7 @@
 		<Col xs="0" sm="1" md="3" />
 		<Col xs="12" sm="10" md="6">
 		<Toast style="max-width: 100%;" light>
-			<ToastHeader>
+			<ToastHeader style="background-color: { HEADER_COLOR }">
 				<strong>Что у Вас нового?</strong>
 			</ToastHeader>
 			<ToastBody>
@@ -287,7 +288,7 @@
 			</ToastBody>
 		</Toast>
 		<Toast style="max-width: 100%;" light>
-			<ToastHeader>
+			<ToastHeader style="background-color: { HEADER_COLOR }">
 				<strong>Поиск:</strong>
 			</ToastHeader>
 			<ToastBody>
@@ -304,8 +305,8 @@
 			</ToastBody>
 		</Toast>
 		{#each posts as post}
-		<Toast style="max-width: 100%;" light>
-      <ToastHeader>
+		<Toast style="max-width: 100%;">
+      <ToastHeader style="background-color: { HEADER_COLOR }">
 				<Button class="btn-info" size="sm" style="margin-right: 6px;" on:click={filterByTagPost({ post })}>{ post.tag }</Button>
 				<Label>{ formatDate(post.date) }</Label>
 				<ButtonGroup style="position: absolute; right: 28px;">

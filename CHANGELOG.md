@@ -6,3 +6,7 @@ Core functionality is written.
 
 Now you can set multiple tags, just split words by space.
 Fixed some images issues.
+
+### 13.02.21
+
+Add HEADER_COLOR in env.js, to highlight post headers
