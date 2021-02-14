@@ -10,3 +10,8 @@ Fixed some images issues.
 ### 13.02.21
 
 Add HEADER_COLOR in env.js, to highlight post headers
+
+
+### 14.02.21
+
+some cosmetic changes
