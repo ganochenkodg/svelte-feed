@@ -206,10 +206,13 @@
 		postPreviewsBody[post.post._id] = post.post.body;
 		axios.post('/posts/metadata', metaload)
 			.then((res) => {
+// i know this looks like a piece of crap, but svelte not applies css to dynamic html :(
 				result = '<hr style="height:2px;border-width:0;color:silver;background-color:silver">'
+				result = result + '<div style="overflow:hidden; height: 144px; border: 2px solid silver;border-radius: 4px;max-width: 100%;">';
 				result = result + `<a target="_blank" href="${res.data.url}">`;
-				result = result + `<strong>${res.data.title}</strong>`
-				result = result + `<img style="border: 2px solid silver;border-radius: 4px;max-width: 100%;" title="${res.data.description}" src="${res.data.image}"/></a>`;
+				result = result + `<img style="float: left; border-right: 2px solid silver;margin-right: 5px; width: auto; height: 140px;max-width: 100%;" title="${res.data.description}" src="${res.data.image}"/></a>`;
+				result = result + `<a target="_blank" href="${res.data.url}">`;
+				result = result + `<strong>${res.data.title}</strong><p/>${res.data.description}></a></div>`;
 				postPreviews[post.post._id] = result;
 			})
 			.catch((error) => {
