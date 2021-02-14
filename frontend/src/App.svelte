@@ -255,9 +255,9 @@
 	<Row>
 		<Col xs="0" sm="1" md="3" />
 		<Col xs="12" sm="10" md="6">
-		<Toast style="max-width: 100%;" light>
+		<Toast class="border border-secondary" style="max-width: 100%;">
 			<ToastHeader style="background-color: { HEADER_COLOR }">
-				<strong>Что у Вас нового?</strong>
+				<strong style="color: white; text-shadow: 1px 1px 2px #000000;">Что у Вас нового?</strong>
 			</ToastHeader>
 			<ToastBody>
 				<InputGroup size="sm" style="padding-bottom: 10px;">
@@ -287,9 +287,9 @@
 				{/if}
 			</ToastBody>
 		</Toast>
-		<Toast style="max-width: 100%;" light>
+		<Toast class="border border-secondary" style="max-width: 100%;">
 			<ToastHeader style="background-color: { HEADER_COLOR }">
-				<strong>Поиск:</strong>
+				<strong style="color: white; text-shadow: 1px 1px 2px #000000;">Поиск:</strong>
 			</ToastHeader>
 			<ToastBody>
 				<InputGroup size="sm" style="padding-bottom: 10px;">
@@ -305,10 +305,10 @@
 			</ToastBody>
 		</Toast>
 		{#each posts as post}
-		<Toast style="max-width: 100%;">
+		<Toast class="border border-secondary" style="max-width: 100%;">
       <ToastHeader style="background-color: { HEADER_COLOR }">
 				<Button class="btn-info" size="sm" style="margin-right: 6px;" on:click={filterByTagPost({ post })}>{ post.tag }</Button>
-				<Label>{ formatDate(post.date) }</Label>
+				<Label style="color: white; text-shadow: 1px 1px 2px #000000;">{ formatDate(post.date) }</Label>
 				<ButtonGroup style="position: absolute; right: 28px;">
 				<Button color="info" size="sm" on:click={editPost({ post })}>
 					{#if (post.isEdited)}
@@ -340,6 +340,7 @@
 				{/if}
       </ToastBody>
     </Toast>
+		<p/>
 		{/each}
 		</Col>
 		<Col xs="0" sm="1" md="3"/>
